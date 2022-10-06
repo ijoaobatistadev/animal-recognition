@@ -1,0 +1,40 @@
+$(document).ready(() => {
+
+  const featureExtractor = ml5.featureExtractor('MobileNet', modelLoaded);
+
+  function modelLoaded() {
+    console.log('Model Loaded!');
+  }
+
+  const classifier = featureExtractor.classification();
+
+  console.log($('.galoA'));
+  console.log($('.galoB'));
+
+  $('#addA').click(() => {
+    $.each($('.galoA'), async (i, val) => {
+      await classifier.addImage($(val)[0], 'galoA');
+      console.log('Adiconando imagens de treianmento...', i + 1);
+    });
+  });
+
+  $('#addB').click(() => {
+    $.each($('.galoB'), async (i, val) => {
+      await classifier.addImage(val, 'galoB');
+      console.log('Adiconando imagens de treianmento...', i + 1);
+    });
+  });
+
+  $('#train').click(() => {
+    classifier.train((lossValue) => {
+      console.log('Loss is', lossValue);
+    });
+  });
+
+  $('#recognition').click(() => {
+    classifier.classify($('#recognitionImage')[0], (err, result) => {
+      console.log(result);
+    });
+  });
+
+});

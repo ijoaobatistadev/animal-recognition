@@ -2,11 +2,14 @@ $(document).ready(() => {
 
   const featureExtractor = ml5.featureExtractor('MobileNet', modelLoaded);
 
+  const classifier = featureExtractor.classification();
+
   function modelLoaded() {
     console.log('Model Loaded!');
+    classifier.load('model/model.json', () => {
+      alert('Modelo treinado carregado!');
+    });
   }
-
-  const classifier = featureExtractor.classification();
 
   console.log($('.galoA'));
   console.log($('.galoB'));
@@ -35,6 +38,10 @@ $(document).ready(() => {
     classifier.classify($('#recognitionImage')[0], (err, result) => {
       console.log(result);
     });
+  });
+
+  $('#save').click(() => {
+    classifier.save();
   });
 
 });

@@ -6,8 +6,8 @@ $(document).ready(() => {
 
   function modelLoaded() {
     console.log('Model Loaded!');
-    classifier.load('model/model.json', () => {
-      alert('Modelo treinado carregado!');
+    classifier.load('../model/model.json', () => {
+      console.log('Modelo treinado carregado!');
     });
   }
 

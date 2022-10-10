@@ -42,10 +42,11 @@ function getRoutes() {
 function postRoutes(page) {
   app.post('/recognition', async (req, res) => {
     const modelImage = req.body.image;
+    const modelCategory = req.body.category;
     await page.goto(`http://localhost:${port}/recognition?image=${modelImage}`);
-    const predict = await page.evaluate(async () => {
-      return recognition();
-    });
+    const predict = await page.evaluate(async (modelCategory) => {
+      return recognition(modelCategory);
+    }, modelCategory);
     res.json({ predict });
   });
 
@@ -60,6 +61,6 @@ app.listen(port, () => {
   console.log(`[API] => inicializada na porta ${port}.`);
   appCore((page) => {
     postRoutes(page);
-    console.log(`[API CORE] => inicializado.`);
+    console.log(`[CORE] => inicializado.`);
   });
 });

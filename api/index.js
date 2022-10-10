@@ -13,7 +13,7 @@ app.use('/js', express.static(path.join(__dirname, 'app', 'js')));
 async function appCore(callback) {
   const browser = await puppeteer.launch({
     headless: true,
-    args: ['--disable-web-security'],
+    args: ['--disable-web-security', '--no-sandbox'],
   });
   const page = await browser.newPage();
   await page.goto(`http://localhost:${port}`);

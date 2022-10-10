@@ -1,12 +1,11 @@
 $(document).ready(() => {
-
   const featureExtractor = ml5.featureExtractor('MobileNet', modelLoaded);
 
   const classifier = featureExtractor.classification();
 
   function modelLoaded() {
     console.log('Model Loaded!');
-    classifier.load('../model/model.json', () => {
+    classifier.load('../../models/galo/model.json', () => {
       console.log('Modelo treinado carregado!');
     });
   }
@@ -43,5 +42,4 @@ $(document).ready(() => {
   $('#save').click(() => {
     classifier.save();
   });
-
 });

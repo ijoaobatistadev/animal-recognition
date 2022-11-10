@@ -34,6 +34,10 @@ function getRoutes() {
     res.sendFile(path.join(__dirname, 'app', 'recognition.html'));
   });
 
+  app.get('/add-to-train', async (req, res) => {
+    res.sendFile(path.join(__dirname, 'app', 'addToTrain.html'));
+  });
+
   app.get('*', (req, res) => {
     res.status(404).json({ status: 404, message: 'Nada por aqui.' });
   });
@@ -48,6 +52,15 @@ function postRoutes(page) {
       return recognition(modelCategory);
     }, modelCategory);
     res.json({ predict });
+  });
+
+  app.post('/add-to-train', async (req, res) => {
+    const images = req.body.images;
+    await page.goto(`http://localhost:${port}/add-to-train`);
+    const add = await page.evaluate(async (images) => {
+      return addToTrain(images);
+    }, images);
+    res.json({ add });
   });
 
   app.post('*', async (req, res) => {

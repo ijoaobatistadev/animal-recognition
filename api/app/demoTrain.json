@@ -1,0 +1,20 @@
+{
+  "images": [
+    {
+      "label": "pato01",
+      "image": "https://meusanimais.com.br/wp-content/uploads/2018/02/especies-patos-domesticos.jpg"
+    },
+    {
+      "label": "pato01",
+      "image": "https://www.petz.com.br/blog/wp-content/uploads/2021/08/pato-de-estimacao.jpg"
+    },
+    {
+      "label": "pato02",
+      "image": "https://meusanimais.com.br/wp-content/uploads/2017/12/o-pato-mascote.jpg"
+    },
+    {
+      "label": "pato02",
+      "image": "http://www.portaldosanimais.com.br/wp-content/uploads/2019/12/Pato-Dom%C3%A9stico-11.jpg"
+    }
+  ]
+}

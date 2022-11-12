@@ -1,20 +1,36 @@
 {
   "images": [
     {
-      "label": "pato01",
-      "image": "https://meusanimais.com.br/wp-content/uploads/2018/02/especies-patos-domesticos.jpg"
+      "label": "dog-01",
+      "image": "https://sabicao.com.br/wp-content/uploads/2017/06/dogue-alemao-wpcf_830x550.jpg"
     },
     {
-      "label": "pato01",
-      "image": "https://www.petz.com.br/blog/wp-content/uploads/2021/08/pato-de-estimacao.jpg"
+      "label": "dog-01",
+      "image": "https://www.lojadocao.pt/image/cache/data/BLOG/dogue%20alem-834x433.jpg"
     },
     {
-      "label": "pato02",
-      "image": "https://meusanimais.com.br/wp-content/uploads/2017/12/o-pato-mascote.jpg"
+      "label": "dog-01",
+      "image": "https://www.canildoguealemao.com.br/nossos-dogues/machos/urso/urso01.jpg"
     },
     {
-      "label": "pato02",
-      "image": "http://www.portaldosanimais.com.br/wp-content/uploads/2019/12/Pato-Dom%C3%A9stico-11.jpg"
+      "label": "dog-01",
+      "image": "https://yt3.ggpht.com/ytc/AMLnZu-lu9LvM_FXs5oxSrWAUzUFCj3SHzlFGRzEV_5b=s900-c-k-c0x00ffffff-no-rj"
+    },
+    {
+      "label": "dog-02",
+      "image": "https://i.pinimg.com/originals/9f/60/7b/9f607b32ca183a67f4cbdc3785c75413.jpg"
+    },
+    {
+      "label": "dog-02",
+      "image": "https://cachorrosincriveis.com.br/wp-content/uploads/2018/07/dogue-alem%C3%A3o-6.jpg"
+    },
+    {
+      "label": "dog-02",
+      "image": "https://animais.culturamix.com/blog/wp-content/gallery/C%C3%A3o-Dogue-Alem%C3%A3o-1/C%C3%A3o-Dogue-Alem%C3%A3o-1.jpg"
+    },
+    {
+      "label": "dog-02",
+      "image": "https://cobasi.vteximg.com.br/arquivos/ids/547522/dogue-alemao-saiba-tudo-sobre-a-raca-meio-2.png?v=637565308410370000"
     }
   ]
 }

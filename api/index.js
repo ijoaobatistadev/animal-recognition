@@ -1,9 +1,11 @@
 const express = require('express');
 const puppeteer = require('puppeteer');
 const path = require('path');
+const { readdirSync, rmSync } = require('fs');
 
 const app = express();
 const port = process.env.PORT || 3001;
+const downloadDirectoryPath = path.join(__dirname, '..', 'models');
 
 app.use(express.json());
 app.use(express.urlencoded());
@@ -13,9 +15,18 @@ app.use('/js', express.static(path.join(__dirname, 'app', 'js')));
 async function appCore(callback) {
   const browser = await puppeteer.launch({
     headless: true,
-    args: ['--disable-web-security', '--no-sandbox'],
+    args: [
+      '--no-sandbox',
+      '--disable-web-security',
+      '--disable-features=site-per-process',
+    ],
   });
   const page = await browser.newPage();
+  const client = await page.target().createCDPSession();
+  await client.send('Page.setDownloadBehavior', {
+    behavior: 'allow',
+    downloadPath: downloadDirectoryPath,
+  });
   await page.goto(`http://localhost:${port}`);
   if (typeof callback === 'function') {
     callback(page);
@@ -44,23 +55,41 @@ function getRoutes() {
 }
 
 function postRoutes(page) {
+  // reconhecimento
   app.post('/recognition', async (req, res) => {
     const modelImage = req.body.image;
-    const modelCategory = req.body.category;
     await page.goto(`http://localhost:${port}/recognition?image=${modelImage}`);
-    const predict = await page.evaluate(async (modelCategory) => {
-      return recognition(modelCategory);
-    }, modelCategory);
+    const predict = await page.evaluate(async () => {
+      return recognition();
+    });
     res.json({ predict });
   });
 
+  // treinamento
   app.post('/add-to-train', async (req, res) => {
     const images = req.body.images;
+
+    readdirSync(downloadDirectoryPath).forEach((f) =>
+      rmSync(`${downloadDirectoryPath}/${f}`),
+    );
+
     await page.goto(`http://localhost:${port}/add-to-train`);
-    const add = await page.evaluate(async (images) => {
-      return addToTrain(images);
+
+    page
+      .on('console', (message) => console.log('LOG =>', message.text()))
+      .on('pageerror', ({ message }) => {
+        res.json({ status: false, message: 'Ocorreu um erro inesperado.' });
+      });
+
+    const train = await page.evaluate(async (images) => {
+      await addToTrain(images);
+      return {
+        status: true,
+        message: 'Modelo treinado/atualizado com sucesso!',
+      };
     }, images);
-    res.json({ add });
+
+    res.json({ train });
   });
 
   app.post('*', async (req, res) => {

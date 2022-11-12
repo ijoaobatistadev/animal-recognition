@@ -31,12 +31,12 @@ async function imageUrlToBase64(url) {
   });
 }
 
-async function recognition(model) {
+async function recognition() {
   const image = await imageUrlToBase64(searchToObject().image);
   $('body').append(`<img id="recognitionImage" src=${image} />`);
   const featureExtractor = await ml5.featureExtractor('MobileNet');
   const classifier = featureExtractor.classification();
-  await classifier.load(`/models/${model}/model.json`);
+  await classifier.load(`/models/model.json`);
   const result = await classifier.classify($('#recognitionImage')[0]);
   return result;
 }

@@ -19,25 +19,40 @@ async function imageUrlToBase64(url) {
 }
 
 async function addToTrain(images) {
-  const imagesToTrain = JSON.parse(images);
-  const featureExtractor = ml5.featureExtractor('MobileNet');
-  const classifier = featureExtractor.classification();
+  return new Promise((resolve) => {
+    // Instância da rede neural
+    const imagesToTrain = JSON.parse(images);
+    const featureExtractor = ml5.featureExtractor('MobileNet');
+    const classifier = featureExtractor.classification();
 
-  $.each(imagesToTrain.images, async (i, val) => {
-    const image = await imageUrlToBase64(val.image);
-    $('body').append(
-      `<img class="${val.label}" data-label="${val.label}" src=${image} />`,
-    );
-    if (i === imagesToTrain.images.length - 1) {
-      document.querySelectorAll('img').forEach(async (element) => {
-        await classifier.addImage(element, element.dataset.label);
-        console.log('Adicionando...');
-        // classifier.train((lossValue) => {
-        //   console.log('Loss is', lossValue);
-        // });
-      });
-    }
+    // percorre toda estrutura de dados
+    $.each(imagesToTrain.images, async (i, val) => {
+      // converte as urls em imagens base64 locais
+      const image = await imageUrlToBase64(val.image);
+      // adicionas ao DOM
+      $('body').append(
+        `<img class="${val.label}" data-label="${val.label}" src=${image} />`,
+      );
+      // Verifica se foram todas imagens adicionadas
+      if (i === imagesToTrain.images.length - 1) {
+        let imagesElements = document.querySelectorAll('img');
+        // percorre todas imagens locais
+        imagesElements.forEach(async (element, i) => {
+          // insere as imagens locais na rede neural
+          await classifier.addImage(element, element.dataset.label);
+          // verifica se todas imagens foram adicionadas
+          if (i === imagesElements.length - 1) {
+            // iniciam o treinamento da rede neural
+            await classifier.train((lossValue) => {
+              console.log('Loss is', lossValue);
+              if (!lossValue) {
+                resolve();
+                classifier.save();
+              }
+            });
+          }
+        });
+      }
+    });
   });
-
-  return 'Adicionando imagens...';
 }
